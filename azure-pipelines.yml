@@ -8,13 +8,6 @@ trigger:
 
 pool: wsl-pool
 
-variables:
-  - name: repoName
-    value: docker-nginx
-
-  - name: imageName
-    value: $(repoName)
-
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -45,8 +38,10 @@ steps:
 - task: DockerInstaller@0
   inputs:
     dockerVersion: '17.09.0-ce'
+  displayName: 'Installing Docker'
 
-# - task: Docker@2
-#   inputs:
-#     command: 'buildAndPush'
-#     Dockerfile: '**/Dockerfile'
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+  displayName: 'Building the image'
