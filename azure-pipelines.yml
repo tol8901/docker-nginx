@@ -30,6 +30,9 @@ steps:
 
 - script: |
     git clone git@github.com:tol8901/docker-nginx.git && cd docker-nginx
+    echo "The current location:"
+    pwd
+    ls -lA
   displayName: 'Cloning the git repository, and going into the repository directory'
 
 # - task: DockerInstaller@0
