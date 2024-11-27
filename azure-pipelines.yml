@@ -16,3 +16,28 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+# - script: |
+#     echo "Logging into AWS..."
+#     aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
+#     aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
+#     aws configure set default.region us-east-1
+#   displayName: 'Login to AWS'
+
+# - script: |
+#     aws ecr create-repository --repository-name docker-nginx
+#   displayName: 'Creating the repository in AWS ECR'
+
+- script: |
+    git clone git@github.com:tol8901/docker-nginx.git && cd docker-nginx
+  displayName: 'Cloning the git repository, and going into the repository directory'
+
+# - task: DockerInstaller@0
+#   inputs:
+#     dockerVersion: '17.09.0-ce'
+
+# - task: Docker@2
+#     git clone git@github.com:tol8901/docker-nginx.git && cd docker-nginx
+#   inputs:
+#     command: 'buildAndPush'
+#     Dockerfile: '**/Dockerfile'
