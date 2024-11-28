@@ -30,7 +30,7 @@ steps:
     aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin 381491852735.dkr.ecr.us-east-1.amazonaws.com
     docker build -t docker-nginx-ecr-repo .
     docker tag docker-nginx-ecr-repo:latest 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
-    docker push 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latestdocker push 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
+    docker push 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
   displayName: 'Login to AWS'
 
 # - script: |
