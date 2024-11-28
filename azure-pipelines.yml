@@ -17,31 +17,32 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-# - script: |
-#     echo "Logging into AWS..."
-#     aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
-#     aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
-#     aws configure set default.region $(AWS_REGION)
-#   displayName: 'Login to AWS'
+- script: |
+    echo "Logging into AWS..."
+    aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
+    aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
+    aws configure set default.region $(AWS_REGION)
+
+    aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin 381491852735.dkr.ecr.us-east-1.amazonaws.com
+    docker build -t docker-nginx-ecr-repo .
+    docker tag docker-nginx-ecr-repo:latest 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
+    docker push 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latestdocker push 381491852735.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
+  displayName: 'Login to AWS'
 
 # - script: |
 #     aws ecr create-repository --repository-name docker-nginx
 #   displayName: 'Creating the repository in AWS ECR'
 
-- script: |
-    git clone git@github.com:tol8901/$(repoName).git && cd $(repoName)
-    echo "The current location and the content of the current directory:"
-    pwd
-    ls -lA
-  displayName: 'Cloning the git repository, and going into the repository directory'
+# - task: DockerInstaller@0
+#   inputs:
+#     dockerVersion: '17.09.0-ce'
+#   displayName: 'Installing Docker'
+# - task: Docker@2
+#   inputs:
+#     displayName: 'Build and push Docker-image to the ECR'
+#     command: 'buildAndPush'
+#     Dockerfile: './Dockerfile'
+#     containerRegistry: $(dockerRegistryServiceConnection)
+#     tags: |
+#       $(Build.BuildId)
 
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: '17.09.0-ce'
-  displayName: 'Installing Docker'
-
-- task: Docker@2
-  inputs:
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-  displayName: 'Building the image'
