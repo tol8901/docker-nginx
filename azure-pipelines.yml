@@ -17,36 +17,15 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-# - task: DockerInstaller@0
-#   inputs:
-#     dockerVersion: '17.09.0-ce'
-
 - script: |
     echo "Logging into AWS..."
     aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
     aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
     aws configure set default.region $(AWS_REGION)
 
-    aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin 905418039620.dkr.ecr.us-east-1.amazonaws.com
+    aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin 891377214153.dkr.ecr.us-east-1.amazonaws.com
     docker build -t docker-nginx-ecr-repo .
-    docker tag docker-nginx-ecr-repo:latest 905418039620.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
-    docker push 905418039620.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
+    docker tag docker-nginx-ecr-repo:latest 891377214153.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
+    docker push 891377214153.dkr.ecr.us-east-1.amazonaws.com/docker-nginx-ecr-repo:latest
   displayName: 'Login to AWS'
-
-# - script: |
-#     aws ecr create-repository --repository-name docker-nginx
-#   displayName: 'Creating the repository in AWS ECR'
-
-# - task: DockerInstaller@0
-#   inputs:
-#     dockerVersion: '17.09.0-ce'
-#   displayName: 'Installing Docker'
-# - task: Docker@2
-#   inputs:
-#     displayName: 'Build and push Docker-image to the ECR'
-#     command: 'buildAndPush'
-#     Dockerfile: './Dockerfile'
-#     containerRegistry: $(dockerRegistryServiceConnection)
-#     tags: |
-#       $(Build.BuildId)
 
